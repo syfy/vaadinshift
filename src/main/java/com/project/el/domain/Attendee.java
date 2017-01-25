@@ -20,7 +20,7 @@ import javax.persistence.OrderColumn;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
-public class Attendee{
+public class Attendee extends AbstractPersistable<Long> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
@@ -37,14 +37,22 @@ public class Attendee{
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	PersonalInformation personalInformation;
     @ManyToMany(fetch = FetchType.EAGER)
-    Set<Fellowship> attendedFellowships;
+	@JoinTable(name = " fellowship_attendees", joinColumns = @JoinColumn(name = "attendees_id") , inverseJoinColumns = @JoinColumn(name = "fellowship_id") )
 
-	public Set<Fellowship> getAttendedFellowships() {
+//	@JoinTable(name = " fellowship_attendees")
+  //  Set<Fellowship> attendedFellowships;
+    List<Fellowship> attendedFellowships = new ArrayList<>();
+
+
+
+
+
+	public List<Fellowship> getAttendedFellowships() {
 		return attendedFellowships;
 	}
 
 
-	public void setAttendedFellowships(Set<Fellowship> attendedFellowships) {
+	public void setAttendedFellowships(List<Fellowship> attendedFellowships) {
 		this.attendedFellowships = attendedFellowships;
 	}
 
@@ -64,16 +72,6 @@ public class Attendee{
 		this.personalInformation = personalInformation;
 	}
 	
-	boolean equals(Long id){
-		
-		if(this.getId()==id){
-			return true;
-
-		}
-		return false;
-		
-	}
 	
-
 
 }

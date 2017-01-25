@@ -93,11 +93,11 @@ public class FellowshipOpenView extends HorizontalLayout implements View {
 		for (AttendeePresentationOnGrid  attendeePresentationOnGridRow : attendeePresentationOnGridAggregate.getAttendeePresentationOnGridAggregate()) {
 			boolean isDuplicate = false;
 			for(AttendeePresentationOnGrid attendeeRow: fellowshipService.getPresentationOfAttendeesList(fellowship.getId())){
-				
+			
 				
 				
 				if((attendeeRow.getId()==attendeePresentationOnGridRow.getId())){
-			
+			//	if((attendeeRow.equals(attendeePresentationOnGridRow))){
 					isDuplicate=true;
 				
 				}

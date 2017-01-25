@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -21,10 +23,20 @@ public class Fellowship  {
 	
 
 
-
 	@ManyToMany(fetch = FetchType.EAGER)
+	//Set<Attendee> attendees;
+	@JoinTable(name = " fellowship_attendees", joinColumns = @JoinColumn(name = "fellowship_id") , inverseJoinColumns = @JoinColumn(name = "attendees_id") )
 
-	Set<Attendee> attendees = new HashSet<Attendee>();
+	List<Attendee> attendees = new ArrayList<Attendee>();
+
+	public List<Attendee> getAttendees() {
+		return attendees;
+	}
+
+	public void setAttendees(List<Attendee> attendees) {
+		this.attendees = attendees;
+	}
+
 	Date date;
 
     public Long getId() {
@@ -37,16 +49,6 @@ public class Fellowship  {
 
 
 
-
-	public Set<Attendee> getAttendees() {
-		return attendees;
-	}
-
-	public void setAttendees(Set<Attendee> attendees) {
-		this.attendees = attendees;
-	}
-
-	
 
 
 
@@ -71,9 +73,9 @@ public class Fellowship  {
 	}
 	
 	public void addAttendee(Attendee attendee){
-		if(!attendees.contains(attendee)){
+		//if(!attendees.contains(attendee)){
 			attendees.add(attendee);
-		}
+		//}
 
 
 		
