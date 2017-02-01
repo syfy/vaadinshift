@@ -37,11 +37,18 @@ public class FellowshipServiceImpl implements FellowshipService {
 		// TODO Auto-generated method stub
 		fellowshipDao.save(fellowship);
 	}
+	
+	@Override
+	public void removeAtendeeFromFellowshopt(Fellowship fellowship,Attendee attendee) {
+		// TODO Auto-generated method stub
+		fellowship.removeAttendee(attendee);
+		fellowshipDao.save(fellowship);
+	}
 
 	@Override
 	public Fellowship getOneJpql(Long id) {
 		Query query = entityManager.createQuery(
-				"SELECT fellowship FROM Fellowship fellowship LEFT JOIN FETCH fellowship.attendees attendees LEFT JOIN FETCH attendees.personalInformation personalInformation WHERE fellowship.id =:parameterFellowshipId");
+				"SELECT  fellowship FROM Fellowship fellowship LEFT JOIN FETCH fellowship.attendees attendees LEFT JOIN FETCH attendees.personalInformation personalInformation WHERE fellowship.id =:parameterFellowshipId");
 
 		query.setParameter("parameterFellowshipId", id);
 

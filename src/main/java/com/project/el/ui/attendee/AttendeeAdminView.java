@@ -48,7 +48,6 @@ public class AttendeeAdminView extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -56,7 +55,7 @@ public class AttendeeAdminView extends VerticalLayout implements View {
 	void init() {
 		 attendeeGrid = new Grid();
 		 attendeeGrid.setSizeFull();
-		attendeePresentationOnGridAggregate= new AttendeePresentationOnGridAggregate(attendeeService.findAll());
+		attendeePresentationOnGridAggregate= new AttendeePresentationOnGridAggregate(attendeeService.findAllJpql());
 		beanItemContainer.addAll(attendeePresentationOnGridAggregate.getAttendeePresentationOnGridAggregate());
 		attendeeGrid.setContainerDataSource(beanItemContainer);
 		addComponent(attendeeGrid);
@@ -137,7 +136,7 @@ public class AttendeeAdminView extends VerticalLayout implements View {
 	private void refresh() {
 		
 		beanItemContainer.removeAllItems();
-		attendeePresentationOnGridAggregate= new AttendeePresentationOnGridAggregate(attendeeService.findAll());
+		attendeePresentationOnGridAggregate= new AttendeePresentationOnGridAggregate(attendeeService.findAllJpql());
 
 		beanItemContainer.addAll(attendeePresentationOnGridAggregate.getAttendeePresentationOnGridAggregate());
 

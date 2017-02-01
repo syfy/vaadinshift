@@ -34,9 +34,9 @@ public class Attendee extends AbstractPersistable<Long> {
 		this.id = id;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
 	PersonalInformation personalInformation;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany()
 	@JoinTable(name = " fellowship_attendees", joinColumns = @JoinColumn(name = "attendees_id") , inverseJoinColumns = @JoinColumn(name = "fellowship_id") )
 
 //	@JoinTable(name = " fellowship_attendees")

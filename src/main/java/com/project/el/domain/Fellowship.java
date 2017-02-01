@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import org.hibernate.Hibernate;
+
 @Entity
 public class Fellowship  {
 	@Id
@@ -23,7 +25,7 @@ public class Fellowship  {
 	
 
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany()
 	//Set<Attendee> attendees;
 	@JoinTable(name = " fellowship_attendees", joinColumns = @JoinColumn(name = "fellowship_id") , inverseJoinColumns = @JoinColumn(name = "attendees_id") )
 
@@ -73,7 +75,7 @@ public class Fellowship  {
 	}
 	
 	public void addAttendee(Attendee attendee){
-		//if(!attendees.contains(attendee)){
+	///if(!attendees.contains(attendee)){
 			attendees.add(attendee);
 		//}
 
@@ -82,10 +84,12 @@ public class Fellowship  {
 	}
 	
 	public void removeAttendee(Attendee attendee){
-		if(attendees.contains(attendee)){
-			attendees.remove(attendee);
+		//if(attendees.contains(attendee)){
+		Hibernate.initialize(attendee);
 
-		}
+			attendees.remove(attendee);
+			
+		//}
 	}
 	
 	public boolean containsDuplicateById(Long id){

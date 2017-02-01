@@ -10,4 +10,7 @@ public interface AttendeeService {
 	void save(Attendee attendee);
 	void save(Collection<?> attendees);
 	Attendee get(Long id);
+	Attendee getOneJpql(Long id);
+	List<Attendee> findAllJpql();
+
 }

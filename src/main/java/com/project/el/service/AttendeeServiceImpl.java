@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.el.dao.AttendeeDAO;
 import com.project.el.domain.Attendee;
+import com.project.el.domain.Fellowship;
 
 @Service
 @Transactional
@@ -31,18 +33,26 @@ public class AttendeeServiceImpl implements AttendeeService{
 		// TODO Auto-generated method stub
 		return attendeeDao.findAll();
 	}
+	
+	@Override
+	public List<Attendee> findAllJpql() {
+		Query query = entityManager.createQuery(
+				"SELECT attendee FROM Attendee attendee LEFT JOIN FETCH attendee.personalInformation LEFT JOIN FETCH attendee.attendedFellowships GROUP BY attendee.id");
+
+
+
+		return  query.getResultList();
+	}
 
 	@Override
 	public void save(Attendee attendee) {
-		// TODO Auto-generated method stub
+
 		attendeeDao.save(attendee);
 	}
 
 	@Override
 	public Attendee get(Long id) {
-		// TODO Auto-generated method stub
-	
-	//	   return session.getCurrentSession().load(Attendee.class, id);
+
 		return attendeeDao.getOne(id);
 	}
 	@Override
@@ -53,6 +63,18 @@ public class AttendeeServiceImpl implements AttendeeService{
 		//attendeeDao.save(attendees);
 
 		
+	}
+
+	@Override
+	public Attendee getOneJpql(Long id) {
+
+		Query query = entityManager.createQuery(
+				"SELECT attendee FROM Attendee attendee LEFT JOIN FETCH attendee.personalInformation WHERE attendee.id =:parameterAttendeeId");
+
+		query.setParameter("parameterAttendeeId", id);
+
+		return (Attendee) query.getSingleResult();
+
 	}
 
 }

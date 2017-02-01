@@ -58,6 +58,7 @@ public class FellowshipOpenView extends HorizontalLayout implements View {
 			AttendeePresentationOnGrid.class);
 
 	Button addSelectedAttendeesButton;
+	Button removeSelectedAttendeeButton;
 
 	@Override
 	public void enter(ViewChangeListener.ViewChangeEvent event) {
@@ -70,46 +71,37 @@ public class FellowshipOpenView extends HorizontalLayout implements View {
 				.addAll(selectedFellowship.getAttendeeAsPresentation().getAttendeePresentationOnGridAggregate());
 
 		attendeePresentationOnGridAggregate = new AttendeePresentationOnGridAggregate(attendeeService.findAll());
-	
+
 		beanItemContainerAttendeeSearch
 				.addAll(removeDuplicateFromBeans(selectedFellowship).getAttendeePresentationOnGridAggregate());
-	//	removeDuplicateFromBeans();
+
 		attendeePresentationOnGridAggregate.getAttendeePresentationOnGridAggregate()
-		.removeAll(selectedFellowship.getAttendeeAsPresentation().getAttendeePresentationOnGridAggregate());
+				.removeAll(selectedFellowship.getAttendeeAsPresentation().getAttendeePresentationOnGridAggregate());
 
 	}
 
 	AttendeePresentationOnGridAggregate removeDuplicateFromBeans(Fellowship fellowship) {
-	/*	
-		AttendeePresentationOnGridAggregate returnValue = attendeePresentationOnGridAggregate;
-		for (AttendeePresentationOnGridAggregate  attendeePresentationOnGridRow : attendeePresentationOnGridAggregate
+	
+		AttendeePresentationOnGridAggregate returnValue = new AttendeePresentationOnGridAggregate();
+		for (AttendeePresentationOnGrid attendeePresentationOnGridRow : attendeePresentationOnGridAggregate
 				.getAttendeePresentationOnGridAggregate()) {
-			for(AttendeePresentationOnGrid attendees: fellowshipService.getPresentationOfAttendeesList(fellowship.getId())){
-				
-			}
-		}
-		*/
-		AttendeePresentationOnGridAggregate returnValue   =   new AttendeePresentationOnGridAggregate();
-		for (AttendeePresentationOnGrid  attendeePresentationOnGridRow : attendeePresentationOnGridAggregate.getAttendeePresentationOnGridAggregate()) {
 			boolean isDuplicate = false;
-			for(AttendeePresentationOnGrid attendeeRow: fellowshipService.getPresentationOfAttendeesList(fellowship.getId())){
-			
-				
-				
-				if((attendeeRow.getId()==attendeePresentationOnGridRow.getId())){
-			//	if((attendeeRow.equals(attendeePresentationOnGridRow))){
-					isDuplicate=true;
-				
+			for (AttendeePresentationOnGrid attendeeRow : fellowshipService
+					.getPresentationOfAttendeesList(fellowship.getId())) {
+
+				if ((attendeeRow.getId() == attendeePresentationOnGridRow.getId())) {
+					// if((attendeeRow.equals(attendeePresentationOnGridRow))){
+					isDuplicate = true;
+
 				}
-			
-				
+
 			}
-			
-			if(!isDuplicate){
+
+			if (!isDuplicate) {
 				returnValue.getAttendeePresentationOnGridAggregate().add(attendeePresentationOnGridRow);
 			}
 		}
-		
+
 		return returnValue;
 	}
 
@@ -121,6 +113,17 @@ public class FellowshipOpenView extends HorizontalLayout implements View {
 		fellowshipModel.initialize(fellowship.getId());
 	}
 
+	private void removeAttendeeFromFellowshipEvent(Button.ClickEvent event) {
+		this.
+		beanItemContainerfellowshipAttendees.removeItem(fellowshipAttendeesGrid.getSelectedRow());
+		beanItemContainerAttendeeSearch.addItem(fellowshipAttendeesGrid.getSelectedRow());
+		Fellowship fellowship = fellowshipModel.getFellowship();
+		AttendeePresentationOnGrid selectedAttendeeViewRow = (AttendeePresentationOnGrid)fellowshipAttendeesGrid.getSelectedRow();
+		Attendee attendeeToBeRemoved = attendeeService.getOneJpql(selectedAttendeeViewRow.getId());
+		fellowship.removeAttendee(attendeeToBeRemoved);
+		fellowshipService.save(fellowship);
+
+	}
 	@PostConstruct
 	void init() {
 		setMargin(true);
@@ -171,9 +174,10 @@ public class FellowshipOpenView extends HorizontalLayout implements View {
 		}
 		MultiSelectionModel selection = (MultiSelectionModel) attendeesSearchGrid.getSelectionModel();
 		selection.setSelectionLimit(50000);
-		addSelectedAttendeesButton
-
-		= new Button("Add Selected", e -> {
+		
+		removeSelectedAttendeeButton = new Button("Remove Selected",this::removeAttendeeFromFellowshipEvent);
+		
+		addSelectedAttendeesButton = new Button("Add Selected", e -> {
 			// Delete all selected data items
 			Fellowship fellowship = fellowshipModel.getFellowship();
 			for (Object itemId : selection.getSelectedRows()) {
@@ -205,6 +209,7 @@ public class FellowshipOpenView extends HorizontalLayout implements View {
 		verticalLayoutFrameSearch.setSizeFull();
 
 		verticalLayoutFrameAttendees.addComponent(fellowshipAttendeesGrid);
+		verticalLayoutFrameAttendees.addComponent(removeSelectedAttendeeButton);
 		verticalLayoutFrameSearch.addComponent(attendeesSearchGrid);
 		verticalLayoutFrameSearch.addComponent(addSelectedAttendeesButton);
 
