@@ -32,8 +32,6 @@ public class FellowshipAdminView extends VerticalLayout implements View {
 	@Autowired
 	FellowshipService fellowshipService;
 
-
-	
 	Window subWindow = new Window("Sub-window");
 	FormLayout fellowshipForm = new FormLayout();
 	Button createFellowshipButton = new Button("Create", this::openCreateDialog);
@@ -66,11 +64,10 @@ public class FellowshipAdminView extends VerticalLayout implements View {
 		fellowshipForm.addComponent(birthDate);
 		fellowshipForm.addComponent(new Button("Save And Close", this::closeDialog));
 
-		HorizontalLayout buttonContainer = new HorizontalLayout(createFellowshipButton,openFellowshipButton);
-		
+		HorizontalLayout buttonContainer = new HorizontalLayout(createFellowshipButton, openFellowshipButton);
+
 		addComponent(fellowshipGrid);
 		addComponent(buttonContainer);
-
 
 	}
 
@@ -97,7 +94,6 @@ public class FellowshipAdminView extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -108,8 +104,6 @@ public class FellowshipAdminView extends VerticalLayout implements View {
 			getUI().getNavigator().navigateTo(String.format("fellowship/%d", selectedFellowshipViewCursor.getId()));
 		}
 	}
-
-
 
 	private void toggleOpenFellowshipEnablement(boolean enabled) {
 		openFellowshipButton.setEnabled(enabled);

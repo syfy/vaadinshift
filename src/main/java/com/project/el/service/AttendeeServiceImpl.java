@@ -17,31 +17,26 @@ import com.project.el.domain.Fellowship;
 
 @Service
 @Transactional
-public class AttendeeServiceImpl implements AttendeeService{
+public class AttendeeServiceImpl implements AttendeeService {
 	@Autowired
 	AttendeeDAO attendeeDao;
-	
-	
+
 	@PersistenceContext
 	private EntityManager entityManager;
-	
 
-
-	
 	@Override
 	public List<Attendee> findAll() {
-		// TODO Auto-generated method stub
 		return attendeeDao.findAll();
 	}
-	
+
 	@Override
 	public List<Attendee> findAllJpql() {
-		Query query = entityManager.createQuery(
-				"SELECT attendee FROM Attendee attendee LEFT JOIN FETCH attendee.personalInformation LEFT JOIN FETCH attendee.attendedFellowships GROUP BY attendee.id");
-
-
-
-		return  query.getResultList();
+	//	Query query = entityManager.createQuery(
+	//			"SELECT DISTINCT attendee FROM Attendee attendee LEFT JOIN FETCH attendee.personalInformation LEFT JOIN FETCH attendee.attendedFellowships");
+	
+	//	return query.getResultList();
+		return attendeeDao.findAllJpql();
+		
 	}
 
 	@Override
@@ -55,14 +50,12 @@ public class AttendeeServiceImpl implements AttendeeService{
 
 		return attendeeDao.getOne(id);
 	}
+
 	@Override
 	public void save(Collection<?> attendees) {
-		// TODO Auto-generated method stub
-		
-		
-		//attendeeDao.save(attendees);
 
-		
+		// attendeeDao.save(attendees);
+
 	}
 
 	@Override

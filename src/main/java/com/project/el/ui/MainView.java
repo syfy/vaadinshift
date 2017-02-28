@@ -37,6 +37,9 @@ public class MainView extends VerticalLayout implements View {
             .addComponent(new Button("Attendees", evt -> getUI().getNavigator().navigateTo("admin/attendee")));
             navigationButtons
             .addComponent(new Button("Fellowship", evt -> getUI().getNavigator().navigateTo("admin/fellowship")));
+            
+            navigationButtons
+            .addComponent(new Button("Attendee Reports", evt -> getUI().getNavigator().navigateTo("admin/attendee_reports")));
     }
 
     @Override

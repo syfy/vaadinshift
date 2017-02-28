@@ -1,11 +1,18 @@
 package com.project.el.ui.fellowship;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.nio.charset.Charset;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -64,7 +71,6 @@ public class FellowshipOpenView extends HorizontalLayout implements View {
 	public void enter(ViewChangeListener.ViewChangeEvent event) {
 		Long id = Long.valueOf(event.getParameters());
 
-		// TODO add error handling
 		fellowshipModel.initialize(id);
 		Fellowship selectedFellowship = fellowshipModel.getFellowship();
 		beanItemContainerfellowshipAttendees
@@ -121,12 +127,51 @@ public class FellowshipOpenView extends HorizontalLayout implements View {
 		AttendeePresentationOnGrid selectedAttendeeViewRow = (AttendeePresentationOnGrid)fellowshipAttendeesGrid.getSelectedRow();
 		Attendee attendeeToBeRemoved = attendeeService.getOneJpql(selectedAttendeeViewRow.getId());
 		fellowship.removeAttendee(attendeeToBeRemoved);
+	
 		fellowshipService.save(fellowship);
 
 	}
+	  private static String readAll(Reader rd) throws IOException {
+		    StringBuilder sb = new StringBuilder();
+		    int cp;
+		    while ((cp = rd.read()) != -1) {
+		      sb.append((char) cp);
+		    }
+		    return sb.toString();
+		  }
+
+		  public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+		    InputStream is = new URL(url).openStream();
+		    try {
+		      BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+		      String jsonText = readAll(rd);
+		      JSONObject json = new JSONObject(jsonText);
+		      return json;
+		    } finally {
+		      is.close();
+		    }
+		  }
+
+	
 	@PostConstruct
 	void init() {
-		setMargin(true);
+		
+		  String sURL = "http://localhost:8086/projectcrmvaadinized/contact/test/findallproxy"; //just a string
+
+		    JSONObject json;
+			try {
+				json = readJsonFromUrl(sURL);
+			   System.out.println(json.toString());
+			  //  System.out.println(json.get("id"));
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			setMargin(true);
 		setSpacing(true);
 		setSizeFull();
 

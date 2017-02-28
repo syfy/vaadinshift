@@ -28,19 +28,19 @@ public class FellowshipServiceImpl implements FellowshipService {
 
 	@Override
 	public List<Fellowship> findAll() {
-		// TODO Auto-generated method stub
+
 		return fellowshipDao.findAll();
 	}
 
 	@Override
 	public void save(Fellowship fellowship) {
-		// TODO Auto-generated method stub
+
 		fellowshipDao.save(fellowship);
 	}
-	
+
 	@Override
-	public void removeAtendeeFromFellowshopt(Fellowship fellowship,Attendee attendee) {
-		// TODO Auto-generated method stub
+	public void removeAtendeeFromFellowshopt(Fellowship fellowship, Attendee attendee) {
+
 		fellowship.removeAttendee(attendee);
 		fellowshipDao.save(fellowship);
 	}
@@ -56,38 +56,35 @@ public class FellowshipServiceImpl implements FellowshipService {
 
 	}
 
-	
-
 	@Override
 	public Fellowship get(Long id) {
-		// TODO Auto-generated method stub
+
 		return fellowshipDao.getOne(id);
 	}
 
-	
-	
 	@Override
 
-	public ArrayList<AttendeePresentationOnGrid> getPresentationOfAttendeesList(Long id){
-		
-		ArrayList<AttendeePresentationOnGrid> attendeePresentationOnGridAggregate= new ArrayList<AttendeePresentationOnGrid>();
-			for(Attendee attendee:fellowshipDao.getOne(id).getAttendees()){
-				
-			//	System.out.println(attendeeService.get(attendee.getId()).getPersonalInformation().getEmailAddress());
-				PersonalInformation personalInformation = attendee.getPersonalInformation();
-				AttendeePresentationOnGrid attendeePresentationOnGridrow = new AttendeePresentationOnGrid();
-				attendeePresentationOnGridrow.setBirthDate(personalInformation.getBirthDate().toString());
-				attendeePresentationOnGridrow.setEmailAddress(attendee.getPersonalInformation().getEmailAddress());
-				attendeePresentationOnGridrow.setFaceBookAccountURL(attendee.getPersonalInformation().getFaceBookAccountURL());
-				attendeePresentationOnGridrow.setId(attendee.getId());
-				attendeePresentationOnGridrow.setLastName(attendee.getPersonalInformation().getLastName());
-				attendeePresentationOnGridrow.setFirstName(attendee.getPersonalInformation().getFirstName());
-				attendeePresentationOnGridrow.setMobileNumber(attendee.getPersonalInformation().getMobileNumber());
-				attendeePresentationOnGridrow.setSchoolName(attendee.getPersonalInformation().getSchoolName());
-				attendeePresentationOnGridAggregate.add(attendeePresentationOnGridrow);
-				
-			}
-			return attendeePresentationOnGridAggregate;
+	public ArrayList<AttendeePresentationOnGrid> getPresentationOfAttendeesList(Long id) {
+
+		ArrayList<AttendeePresentationOnGrid> attendeePresentationOnGridAggregate = new ArrayList<AttendeePresentationOnGrid>();
+		for (Attendee attendee : fellowshipDao.getOne(id).getAttendees()) {
+
+			// System.out.println(attendeeService.get(attendee.getId()).getPersonalInformation().getEmailAddress());
+			PersonalInformation personalInformation = attendee.getPersonalInformation();
+			AttendeePresentationOnGrid attendeePresentationOnGridrow = new AttendeePresentationOnGrid();
+			attendeePresentationOnGridrow.setBirthDate(personalInformation.getBirthDate().toString());
+			attendeePresentationOnGridrow.setEmailAddress(attendee.getPersonalInformation().getEmailAddress());
+			attendeePresentationOnGridrow
+					.setFaceBookAccountURL(attendee.getPersonalInformation().getFaceBookAccountURL());
+			attendeePresentationOnGridrow.setId(attendee.getId());
+			attendeePresentationOnGridrow.setLastName(attendee.getPersonalInformation().getLastName());
+			attendeePresentationOnGridrow.setFirstName(attendee.getPersonalInformation().getFirstName());
+			attendeePresentationOnGridrow.setMobileNumber(attendee.getPersonalInformation().getMobileNumber());
+			attendeePresentationOnGridrow.setSchoolName(attendee.getPersonalInformation().getSchoolName());
+			attendeePresentationOnGridAggregate.add(attendeePresentationOnGridrow);
+
+		}
+		return attendeePresentationOnGridAggregate;
 
 	}
 }

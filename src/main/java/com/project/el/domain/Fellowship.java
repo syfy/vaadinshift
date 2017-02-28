@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,16 +15,22 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
 
 @Entity
 public class Fellowship  {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
+	//optimistic lock
+	//@Version
+	//@Column(name = "optlock")
+	//private long version = 0L;
 	
-
+	
 
 	@ManyToMany()
 	//Set<Attendee> attendees;
