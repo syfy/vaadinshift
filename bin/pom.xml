@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.project.el</groupId>
-	<artifactId>projectel</artifactId>
+	<groupId>com.project.crm</groupId>
+	<artifactId>crm</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>projectCRMVVaadinized</name>
 	<description>ProjectCRM Initial Release</description>
@@ -26,9 +26,17 @@
 
 	<dependencies>
 
-		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
-			</dependency> <dependency> <groupId>org.thymeleaf.extras</groupId> <artifactId>thymeleaf-extras-springsecurity4</artifactId> 
-			</dependency> -->
+<!-- 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+		</dependency>
+ -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -189,10 +197,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
+		
 
-
-
-
+		
+		
 	</dependencies>
 
 	<dependencyManagement>
@@ -200,7 +208,7 @@
 			<dependency>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-bom</artifactId>
-				<version>7.7.6</version>
+			<version>7.7.6</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -208,20 +216,11 @@
 	</dependencyManagement>
 
 	<build>
-
-
-
-
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
-
-
-		
-
 		</plugins>
 	</build>
 </project>
